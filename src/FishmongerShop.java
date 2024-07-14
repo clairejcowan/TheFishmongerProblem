@@ -4,14 +4,17 @@ import java.util.Random;
 public class FishmongerShop {
     private ArrayList<Object> w;
     private final int MAX_CAPACITY = 4;
+    private String shopName;
+    private boolean isResting = true;
 
-    public FishmongerShop() {
+    public FishmongerShop(String name) {
+        shopName = name;
         w = new ArrayList<Object>();
     }
 
     public synchronized void enter(Object item) {
         while (w.size() == MAX_CAPACITY) {
-            System.out.println("Shop is full. Customer waiting outside...");
+            System.out.println(shopName + " is full. Customer waiting outside...");
             try{
                 //block enter
                 wait();
@@ -22,7 +25,7 @@ public class FishmongerShop {
         }
 
         //log new customer
-        System.out.println("New Customer. Shop had " + w.size() + " customers waiting.");
+        System.out.println("New Customer. " + shopName + " had " + w.size() + " customers waiting.");
         w.add(item);
 
         try{
@@ -38,11 +41,8 @@ public class FishmongerShop {
     }
 
     public synchronized Object serveCustomer() {
-        boolean isResting = false;
-
-        while (w.size() == 0) {
-            System.out.println("Shop is empty. Fishmonger resting...");
-            isResting = true;
+        while (w.isEmpty()) {
+            System.out.println(shopName + " is empty.");
             try {
                 //block serveCustomer
                 wait();
@@ -54,10 +54,10 @@ public class FishmongerShop {
 
         //wake up fishmonger
         if(isResting)
-            System.out.println("Customer rang the bell. Fishmonger is awake.");
+            System.out.println("Customer rang " + shopName + "'s bell. Fishmonger is awake.");
 
         //serve customer
-        System.out.println("Fishmonger serving. Shop had " + w.size() + " customers waiting.");
+        System.out.println("Fishmonger serving." + shopName + " had " + w.size() + " customers waiting.");
         Object item = w.get(0);
         w.remove(0);
 
@@ -72,6 +72,19 @@ public class FishmongerShop {
         //notify enter
         notify();
         return item;
+    }
+
+    public boolean isShopFull(){
+        return w.size() == MAX_CAPACITY;
+    }
+    public boolean isShopEmpty(){
+        return w.isEmpty();
+    }
+    public String getShopName(){
+        return this.shopName;
+    }
+    public void updateIsResting(boolean state){
+        this.isResting = state;
     }
 
 }
