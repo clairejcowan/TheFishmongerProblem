@@ -1,17 +1,16 @@
-
 import java.util.*;
 
-
-public class Fishmonger {
+public class Fishmonger extends Thread{
+	private FishmongerShop shop;
+	private Random random;
 
 	public Fishmonger(FishmongerShop q) {
 		shop = q;
 		random = new Random();
 	}
 
-	public void serveCustomer(){
-		int i;
-		for(i=0;i<120;i++){
+	public void run(){
+		for(int i=0;i<120;i++){
 			shop.serveCustomer();
 			try{
 				Thread.sleep(random.nextInt(300));
@@ -19,6 +18,4 @@ public class Fishmonger {
 		}
 	}
 
-	private FishmongerShop shop;
-	private Random random;
 }
