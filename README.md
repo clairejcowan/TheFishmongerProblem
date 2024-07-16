@@ -1,5 +1,5 @@
 # Background Information
-CSCU9V6 - Operating Systems Concurrency and Distribution. Grade: 90%.
+CSCU9V6 - Operating Systems Concurrency and Distribution. Grade: 90.
 
 Java Version: JDK 22
 
